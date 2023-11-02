@@ -1,6 +1,6 @@
 from langchain.chat_models import ChatOpenAI
 
-from src.modules.assistant.assistant import ChatBotTemplate
+from src.modules.assistant.assistant_template import ChatBotTemplate
 
 
 class OpenAIChatBot(ChatBotTemplate):
