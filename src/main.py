@@ -1,11 +1,13 @@
 from src.modules.assistant.open_ai_assistatnt import OpenAIChatBot
+from src.modules.user_communication.communication import UserCommunication
 from src.modules.voice_recognition.voice_recognition import SpeechRecognition
 from src.modules.youtube.youtube import YoutubeConnector
 import ast
 import re
 
 COMMANDS = {
-    "search_and_play_video": YoutubeConnector.search_and_play_video
+    "search_and_play_video": YoutubeConnector.search_and_play_video,
+    "respond_to_user": UserCommunication.respond
 }
 
 def main():

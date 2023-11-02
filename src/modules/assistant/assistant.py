@@ -1,5 +1,6 @@
-from langchain import LLMChain, PromptTemplate
 from langchain.chat_models.base import BaseChatModel
+from langchain.chains import LLMChain
+from langchain.prompts import PromptTemplate
 
 
 class ChatBotTemplate:
@@ -26,6 +27,9 @@ class ChatBotTemplate:
             
             name: search_and_play_video - allows to play youtube video
             attributes: text_to_search: str - text that will be used for search, should be short and concise
+            
+            name: respond_to_user - allows to respond to user
+            attributes: response: str - text that will be said to user
             
             END OF LIST OF FUNCTIONS
             
