@@ -8,9 +8,9 @@ isort:
 	poetry run isort ./src
 
 typehint_check:
-	poetry run mypy --no-site-packages --ignore-missing-imports --no-strict-optional ./src
+	poetry run mypy --no-site-packages --ignore-missing-imports --no-strict-optional --explicit-package-bases ./src
 
 format: flake black isort typehint_check
 
 install:
-	poetry install
+	poetry install  --no-root
