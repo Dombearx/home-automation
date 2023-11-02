@@ -8,7 +8,7 @@ from src.modules.youtube.consts import DEFAULT_TIME_TO_WAIT
 
 class YoutubeConnector:
     @staticmethod
-    def play_video(url, time_to_wait: int = DEFAULT_TIME_TO_WAIT):
+    def play_video(url: str, time_to_wait: int = DEFAULT_TIME_TO_WAIT) -> None:
         webbrowser.open(url)
         time.sleep(time_to_wait)  # give it a couple seconds to load
         # pyautogui.press("space")
@@ -19,6 +19,11 @@ class YoutubeConnector:
         # videosSearch = VideosSearch(text_to_search, limit=1)
         # YoutubeConnector.play_video(videosSearch.resultComponents[0]["link"])
         return "The video has been played."
+
+    @staticmethod
+    def search_video(text_to_search: str) -> str:
+        pass
+
 
 
 if __name__ == "__main__":

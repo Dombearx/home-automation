@@ -18,9 +18,9 @@ def main():
     recognition.listen()
     human_order = recognition.recognize()
     human_order = "how many letters in the word educa?"
-    human_order = "Play no mercy by the living tombstone"
+    human_order = "Play video named no mercy by the living tombstone"
     output = chatbot.chat(human_order)
-    print(output)
+    # print(output)
 
 
 if __name__ == "__main__":
