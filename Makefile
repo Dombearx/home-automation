@@ -13,4 +13,4 @@ typehint_check:
 format: flake black isort typehint_check
 
 install:
-	poetry install  --no-root
+	poetry install --no-root
