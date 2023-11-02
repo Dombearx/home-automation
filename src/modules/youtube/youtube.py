@@ -1,9 +1,9 @@
 import time
 import webbrowser
 
-from src.modules.youtube.consts import DEFAULT_TIME_TO_WAIT
+import pyautogui
 
-# import pyautogui
+from src.modules.youtube.consts import DEFAULT_TIME_TO_WAIT
 
 
 class YoutubeConnector:
@@ -11,7 +11,7 @@ class YoutubeConnector:
     def play_video(url: str, time_to_wait: int = DEFAULT_TIME_TO_WAIT) -> None:
         webbrowser.open(url)
         time.sleep(time_to_wait)  # give it a couple seconds to load
-        # pyautogui.press("space")
+        pyautogui.press("space")
 
     @staticmethod
     def search_and_play_video(text_to_search: str) -> str:
@@ -23,7 +23,6 @@ class YoutubeConnector:
     @staticmethod
     def search_video(text_to_search: str) -> str:
         pass
-
 
 
 if __name__ == "__main__":

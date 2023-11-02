@@ -1,15 +1,15 @@
 from langchain.agents import tool
+from langchain.tools import YouTubeSearchTool
 
 from src.modules.user_communication.communication import UserCommunication
 from src.modules.youtube.youtube import YoutubeConnector
-from langchain.tools import YouTubeSearchTool
-
 
 # @tool
 # def search_and_play_video(text_to_search: str):
 #     """Allows to play youtube video."""
 #     YoutubeConnector.search_and_play_video(text_to_search)
 #     return True
+
 
 @tool
 def respond_to_user(response: str):
