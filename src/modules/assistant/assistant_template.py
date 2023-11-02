@@ -1,53 +1,62 @@
-from langchain.chains import LLMChain
+from typing import Callable, Optional
+
+from langchain.agents import AgentExecutor
+from langchain.agents.output_parsers import OpenAIFunctionsAgentOutputParser
 from langchain.chat_models.base import BaseChatModel
-from langchain.prompts import PromptTemplate
+from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain.schema.runnable import Runnable
+from langchain.tools import BaseTool
+
+
+def identity_function(x):
+    return x
 
 
 class ChatBotTemplate:
-    def __init__(self, main_llm: BaseChatModel):
-
-        template = """
-            You are a home assistant.
-            You will get a list of possible functions with their documentation.
-            Your goal is to listen to human orders and respond with function name with parameters that will best suit the human needs.
-            Interpret the command based on your own knowledge; for example, when user asks for something sweet respond with candies or chocolate bar.
-            Be descriptive when filling functions parameters.
-            In the first line of response send only the function name.
-            In the second line send parameters formatted as python dict.
-            
-            EXAMPLE
-            human: play some classic polish rap
-            assistant:search_and_play_video()
-            {{
-                "text_to_search": "paktofonika"
-            }}
-            END OF EXAMPLE
-            
-            LIST OF FUNCTIONS
-            
-            name: search_and_play_video - allows to play youtube video
-            attributes: text_to_search: str - text that will be used for search, should be short and concise
-            
-            name: respond_to_user - allows to respond to user
-            attributes: response: str - text that will be said to user
-            
-            END OF LIST OF FUNCTIONS
-            
-            human: {human_input}
-            assistant:
-        """
-
-        prompt = PromptTemplate(
-            input_variables=["human_input"],
-            template=template,
+    def __init__(
+        self,
+        main_llm: BaseChatModel,
+        tools: Optional[list[BaseTool]] = None,
+        format_function: Callable = identity_function,
+        tool_format_function: Callable = identity_function,
+    ):
+        self.tools = tools
+        prompt = ChatPromptTemplate.from_messages(
+            [
+                (
+                    "system",
+                    "You are a home assistant, your goal is to listen to human orders.",
+                ),
+                ("user", "{human_input}"),
+                MessagesPlaceholder(variable_name="agent_scratchpad"),
+            ]
         )
 
-        self.chat_chain = LLMChain(
-            llm=main_llm,
-            prompt=prompt,
-            verbose=True,
+        if tools:
+            main_llm = self.bind_tools(
+                main_llm, tools=tools, format_function=tool_format_function
+            )
+
+        self.agent = (
+            {
+                "human_input": lambda x: x["human_input"],
+                "agent_scratchpad": lambda x: format_function(x["intermediate_steps"]),
+            }
+            | prompt
+            | main_llm
+            | OpenAIFunctionsAgentOutputParser()
         )
 
     def chat(self, human_input: str):
-        output = self.chat_chain.predict(human_input=human_input)
-        return output
+        agent_executor = AgentExecutor(agent=self.agent, tools=self.tools, verbose=True)
+        output = agent_executor.invoke({"human_input": human_input})
+
+        return output["output"]
+
+    def bind_tools(
+        self,
+        llm: BaseChatModel,
+        tools: Optional[list[BaseTool]],
+        format_function: Callable,
+    ) -> Runnable:
+        return llm.bind(functions=[format_function(tool) for tool in tools])

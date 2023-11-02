@@ -1,24 +1,28 @@
 import time
 import webbrowser
 
-from youtubesearchpython import VideosSearch
+import pyautogui
 
 from src.modules.youtube.consts import DEFAULT_TIME_TO_WAIT
-
-# import pyautogui
 
 
 class YoutubeConnector:
     @staticmethod
-    def play_video(url, time_to_wait: int = DEFAULT_TIME_TO_WAIT):
+    def play_video(url: str, time_to_wait: int = DEFAULT_TIME_TO_WAIT) -> None:
         webbrowser.open(url)
         time.sleep(time_to_wait)  # give it a couple seconds to load
-        # pyautogui.press("space")
+        pyautogui.press("space")
 
     @staticmethod
-    def search_and_play_video(text_to_search: str):
-        videosSearch = VideosSearch(text_to_search, limit=1)
-        YoutubeConnector.play_video(videosSearch.resultComponents[0]["link"])
+    def search_and_play_video(text_to_search: str) -> str:
+        print("searching for: ", text_to_search)
+        # videosSearch = VideosSearch(text_to_search, limit=1)
+        # YoutubeConnector.play_video(videosSearch.resultComponents[0]["link"])
+        return "The video has been played."
+
+    @staticmethod
+    def search_video(text_to_search: str) -> str:
+        pass
 
 
 if __name__ == "__main__":

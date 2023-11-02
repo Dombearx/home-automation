@@ -1,4 +1,4 @@
 class UserCommunication:
     @staticmethod
     def respond(response):
-        print(response)
+        print(f"~~{response}~~")
