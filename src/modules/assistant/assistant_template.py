@@ -1,5 +1,5 @@
-from langchain.chat_models.base import BaseChatModel
 from langchain.chains import LLMChain
+from langchain.chat_models.base import BaseChatModel
 from langchain.prompts import PromptTemplate
 
 
@@ -48,8 +48,6 @@ class ChatBotTemplate:
             verbose=True,
         )
 
-
     def chat(self, human_input: str):
         output = self.chat_chain.predict(human_input=human_input)
         return output
-

@@ -1,3 +1,10 @@
 # home-automation
 
-Local processed home automation basen on LLM models
+Local processed home automation based on LLM models
+
+
+## installation
+
+`pip install poetry`
+
+`make install`
