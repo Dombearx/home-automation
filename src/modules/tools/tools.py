@@ -1,8 +1,12 @@
+from typing import List
+
 from langchain.agents import tool
 from langchain.tools import YouTubeSearchTool
 
+from src.modules.shopping_list.shopping_list import ShoppingList
 from src.modules.user_communication.communication import UserCommunication
 from src.modules.youtube.youtube import YoutubeConnector
+
 
 # @tool
 # def search_and_play_video(text_to_search: str):
@@ -25,4 +29,11 @@ def play_video(url: str):
     return True
 
 
-TOOLS = [respond_to_user, YouTubeSearchTool(), play_video]
+@tool
+def add_to_shopping_list(items: List[str]):
+    """Allows to add items to a shopping list"""
+    ShoppingList.add_to_shopping_list(items)
+    return True
+
+
+TOOLS = [respond_to_user, YouTubeSearchTool(), play_video, add_to_shopping_list]
