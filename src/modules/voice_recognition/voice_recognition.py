@@ -1,26 +1,22 @@
+from io import BytesIO
+import numpy as np
+
 import speech_recognition as sr
+from faster_whisper import WhisperModel
+from pathlib import Path
 
-
+current_dir = Path(__file__).parent
 class SpeechRecognition:
-    def __init__(self):
+    def __init__(self, model_size: str = "tiny"):
         self.last_audio = None
         self.recognizer = sr.Recognizer()
+        self.model = WhisperModel(model_size, device="cpu", compute_type="int8")
 
     def listen(self):
-        pass
-        # with sr.Microphone() as source:
-        #     print("Say something!")
-        #     self.last_audio = self.recognizer.listen(source)
+        with sr.Microphone() as source:
+            print("Say something!")
+            self.last_audio = self.recognizer.listen(source)
 
     def recognize(self):
-        return "Hello this is my message"
-        # try:
-        #     recognized_text = self.recognizer.recognize_whisper(
-        #         self.last_audio, language="english"
-        #     )
-        #     print("Whisper thinks you said " + recognized_text)
-        #     return recognized_text
-        # except sr.UnknownValueError:
-        #     print("Whisper could not understand audio")
-        # except sr.RequestError as e:
-        #     print("Could not request results from Whisper")
+        segments, _ = self.model.transcribe(BytesIO(self.last_audio.get_wav_data()))
+        return " ".join([segment.text for segment in segments])
