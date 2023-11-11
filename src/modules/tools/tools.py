@@ -1,18 +1,11 @@
-from typing import List
-
 from langchain.agents import tool
 from langchain.tools import YouTubeSearchTool
+from todoist_api_python.models import Task
 
-from src.modules.shopping_list.shopping_list import ShoppingList
+from src.modules.todoist.consts import Tag
+from src.modules.todoist.todoist import Todoist
 from src.modules.user_communication.communication import UserCommunication
 from src.modules.youtube.youtube import YoutubeConnector
-
-
-# @tool
-# def search_and_play_video(text_to_search: str):
-#     """Allows to play youtube video."""
-#     YoutubeConnector.search_and_play_video(text_to_search)
-#     return True
 
 
 @tool
@@ -29,11 +22,13 @@ def play_video(url: str):
     return True
 
 
+todoist = Todoist()
+
+
 @tool
-def add_to_shopping_list(items: List[str]):
-    """Allows to add items to a shopping list"""
-    ShoppingList.add_to_shopping_list(items)
-    return True
+def add_todo_task(task_name: str, tag: Tag, due_string: str) -> Task:
+    """Adds task to list. Due_string is human-like string. Returns data about added task."""
+    return todoist.add_task(task_name, tag, due_string)
 
 
-TOOLS = [respond_to_user, YouTubeSearchTool(), play_video, add_to_shopping_list]
+TOOLS = [respond_to_user, YouTubeSearchTool(), play_video, add_todo_task]
