@@ -26,7 +26,7 @@ todoist = Todoist()
 
 
 @tool
-def add_todo_task(task_name: str, tag: Tag, due_string: str) -> Task:
+def add_todo_task(task_name: str, tag: Tag, due_string: str = "today") -> Task:
     """Adds task to list. Due_string is human-like string. Returns data about added task."""
     return todoist.add_task(task_name, tag, due_string)
 
