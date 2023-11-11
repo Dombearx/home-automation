@@ -12,6 +12,7 @@ def main():
     human_order = recognition.recognize()
     # human_order = "how many letters in the word educa?"
     # human_order = "Remind me to buy onion, two carrots, milk and a meat"
+    # human_order = "Remind me that i should buy milk"
     chatbot.chat(human_order)
 
 

@@ -1,13 +1,14 @@
 from io import BytesIO
-import numpy as np
+from pathlib import Path
 
 import speech_recognition as sr
 from faster_whisper import WhisperModel
-from pathlib import Path
 
 current_dir = Path(__file__).parent
+
+
 class SpeechRecognition:
-    def __init__(self, model_size: str = "tiny"):
+    def __init__(self, model_size: str = "medium"):
         self.last_audio = None
         self.recognizer = sr.Recognizer()
         self.model = WhisperModel(model_size, device="cpu", compute_type="int8")
