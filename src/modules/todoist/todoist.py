@@ -41,6 +41,10 @@ class Todoist:
 
         return task_date <= today_date
 
+    def add_tasks(self, tasks_names: List[str], tag: Tag, due_string: str = "today"):
+        for task in tasks_names:
+            self.add_task(task, tag, due_string)
+
     def add_task(self, task_name: str, tag: Tag, due_string: str = "today") -> Task:
         project_id = self.get_inbox_project()["project_id"]
         tasks = self.get_tasks(project_id)
