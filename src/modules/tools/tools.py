@@ -1,3 +1,5 @@
+from typing import List
+
 from langchain.agents import tool
 from langchain.tools import YouTubeSearchTool
 from todoist_api_python.models import Task
@@ -26,9 +28,22 @@ todoist = Todoist()
 
 
 @tool
-def add_todo_task(task_name: str, tag: Tag, due_string: str) -> Task:
+def add_todo_task(task_name: str, tag: Tag, due_string: str = "today") -> Task:
     """Adds task to list. Due_string is human-like string. Returns data about added task."""
     return todoist.add_task(task_name, tag, due_string)
 
 
-TOOLS = [respond_to_user, YouTubeSearchTool(), play_video, add_todo_task]
+@tool
+def add_todo_tasks(tasks_names: List[str], tag: Tag, due_string: str = "today") -> bool:
+    """Adds many tasks at once with the same tag. Due_string is human-like string."""
+    todoist.add_tasks(tasks_names, tag, due_string)
+    return True
+
+
+TOOLS = [
+    respond_to_user,
+    YouTubeSearchTool(),
+    play_video,
+    add_todo_task,
+    add_todo_tasks,
+]
