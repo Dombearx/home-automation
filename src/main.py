@@ -6,7 +6,7 @@ from src.modules.voice_recognition.wakeword import WakeWord
 def main():
     model_name = "gpt-3.5-turbo"
 
-    chatbot = OpenAIChatBot(model_name)
+    OpenAIChatBot(model_name)
     recognition = SpeechRecognition()
     voice_capture = WakeWord()
 
@@ -18,7 +18,7 @@ def main():
     # human_order = "Remind me to buy onion, two carrots, milk and a meat"
     # human_order = "Remind me that i should buy milk"
     print(human_order)
-    chatbot.chat(human_order)
+    # chatbot.chat(human_order)
 
 
 if __name__ == "__main__":

@@ -17,3 +17,7 @@ class SpeechRecognition:
         )
         segments, _ = self.model.transcribe(BytesIO(audio_data.get_wav_data()))
         return " ".join([segment.text for segment in segments])
+
+    def recognize_from_file(self, file_path):
+        segments, _ = self.model.transcribe(file_path)
+        return " ".join([segment.text for segment in segments])
