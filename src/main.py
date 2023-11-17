@@ -6,7 +6,7 @@ from src.modules.voice_recognition.wakeword import WakeWord
 def main():
     model_name = "gpt-3.5-turbo"
 
-    chatbot = OpenAIChatBot(model_name)
+    OpenAIChatBot(model_name)
     recognition = SpeechRecognition()
     voice_capture = WakeWord()
 
