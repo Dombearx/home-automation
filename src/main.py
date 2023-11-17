@@ -18,7 +18,7 @@ def main():
     # human_order = "Remind me to buy onion, two carrots, milk and a meat"
     # human_order = "Remind me that i should buy milk"
     print(human_order)
-    chatbot.chat(human_order)
+    # chatbot.chat(human_order)
 
 
 if __name__ == "__main__":
