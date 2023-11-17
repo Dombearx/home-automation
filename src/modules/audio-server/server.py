@@ -1,11 +1,13 @@
 import logging
+import time
 from io import BytesIO
 
-from fastapi import FastAPI, File, Request, UploadFile, status
+from fastapi import FastAPI, File, Request, UploadFile, status, Depends
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from loguru import logger
 
+from src.modules.assistant.open_ai_assistatnt import OpenAIChatBot
 from src.modules.voice_recognition.voice_recognition import SpeechRecognition
 
 app = FastAPI()
@@ -21,33 +23,39 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
     )
 
 
+# Define a function to load your big data
+def load_chatbot():
+    model_name = "gpt-3.5-turbo"
+    return OpenAIChatBot(model_name)
+
+
+def load_recognition():
+    recognition = SpeechRecognition("small")
+    return recognition
+
+
+# Use a dependency to load the big data and store it in the app instance
+async def get_chatbot(app: FastAPI = Depends(load_chatbot)):
+    return app
+
+
+async def get_recognition(app: FastAPI = Depends(load_recognition)):
+    return app
+
+
 @app.get("/")
 def read_root():
     return {"message": "Hello, this is the root endpoint!"}
 
 
 @app.post("/receive_audio")
-def receive_audio(audioFile: UploadFile = File(...)):
-    recognize(audioFile)
+def receive_audio(audioFile: UploadFile = File(...), chatbot: OpenAIChatBot = Depends(get_chatbot),
+                  recognition: SpeechRecognition = Depends(get_recognition)):
+    start_time = time.time()
+    human_order = recognition.recognize_from_file(BytesIO(audioFile.file.read()))
+    logger.debug(f"Audio processed in {time.time() - start_time} - {human_order}")
+    chatbot.chat(human_order)
     return {"message": "Hello, this is the receive_audio endpoint!"}
-    #
-    #     os.system("ffmpeg -y -i tmp_filename.3gp tmp_filename.wav")
-    #     print("Start file processing", file=sys.stderr)
-    #     recognize()
-    #     return "Audio received successfully"
-    # except Exception as e:
-    #     print(f"Error: {e}")
-    #
-    #     return "Error receiving audio", 500
-
-
-def recognize(audio_data):
-    # model_name = "gpt-3.5-turbo"
-    # chatbot = OpenAIChatBot(model_name)
-    recognition = SpeechRecognition()
-    human_order = recognition.recognize_from_file(BytesIO(audio_data.file.read()))
-    logger.debug(human_order)
-    # chatbot.chat(human_order)
 
 
 if __name__ == "__main__":
