@@ -2,7 +2,7 @@ import logging
 import time
 from io import BytesIO
 
-from fastapi import FastAPI, File, Request, UploadFile, status, Depends
+from fastapi import Depends, FastAPI, File, Form, Request, UploadFile, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from loguru import logger
@@ -30,7 +30,7 @@ def load_chatbot():
 
 
 def load_recognition():
-    recognition = SpeechRecognition("small")
+    recognition = SpeechRecognition("medium")
     return recognition
 
 
@@ -49,11 +49,23 @@ def read_root():
 
 
 @app.post("/receive_audio")
-def receive_audio(audioFile: UploadFile = File(...), chatbot: OpenAIChatBot = Depends(get_chatbot),
-                  recognition: SpeechRecognition = Depends(get_recognition)):
+def receive_audio(
+    audioFile: UploadFile = File(...),
+    chatbot: OpenAIChatBot = Depends(get_chatbot),
+    recognition: SpeechRecognition = Depends(get_recognition),
+):
     start_time = time.time()
     human_order = recognition.recognize_from_file(BytesIO(audioFile.file.read()))
     logger.debug(f"Audio processed in {time.time() - start_time} - {human_order}")
+    chatbot.chat(human_order)
+    return {"message": "Hello, this is the receive_audio endpoint!"}
+
+
+@app.post("/receive_command")
+def receive_command(
+    human_order: str = Form(...), chatbot: OpenAIChatBot = Depends(get_chatbot)
+):
+    logger.debug(f"Processing: {human_order}")
     chatbot.chat(human_order)
     return {"message": "Hello, this is the receive_audio endpoint!"}
 

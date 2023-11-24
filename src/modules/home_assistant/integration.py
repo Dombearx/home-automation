@@ -21,3 +21,6 @@ class HomeAssistantIntegration:
 
         logger.debug(f"{response.status_code = }")
         logger.debug(response.text)
+
+
+0
