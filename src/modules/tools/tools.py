@@ -4,6 +4,7 @@ from langchain.agents import tool
 from langchain.tools import YouTubeSearchTool
 from todoist_api_python.models import Task
 
+from src.modules.light.light import Light, LightState
 from src.modules.todoist.consts import Tag
 from src.modules.todoist.todoist import Todoist
 from src.modules.user_communication.communication import UserCommunication
@@ -40,10 +41,23 @@ def add_todo_tasks(tasks_names: List[str], tag: Tag, due_string: str = "today") 
     return True
 
 
+# google_search = GoogleSearch()
+
+
+@tool
+def switch_light(new_light_state: LightState):
+    """Allows to play youtube video with given url."""
+    Light.switch_light(new_light_state)
+    return True
+
+
 TOOLS = [
     respond_to_user,
     YouTubeSearchTool(),
     play_video,
     add_todo_task,
     add_todo_tasks,
+    switch_light,
 ]
+#
+# TOOLS += google_search.get_tools()

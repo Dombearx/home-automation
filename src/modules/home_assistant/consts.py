@@ -4,6 +4,7 @@ from enum import Enum
 
 class Service(Enum):
     SHOPPING_LIST = "SHOPPING_LIST_WEBHOOK_ID"
+    LIGHT_SWITCH = "LIGHT_SWITCH_WEBHOOK_ID"
 
 
 HA_ACCESS_TOKEN = os.environ.get("HA_ACCESS_TOKEN")
