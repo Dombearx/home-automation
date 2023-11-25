@@ -7,8 +7,8 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from loguru import logger
 
-from src.modules.assistant.open_ai_assistatnt import OpenAIChatBot
-from src.modules.voice_recognition.voice_recognition import SpeechRecognition
+from src.core.assistant.open_ai_assistatnt import OpenAIChatBot
+from src.core.voice_recognition.voice_recognition import SpeechRecognition
 
 app = FastAPI()
 

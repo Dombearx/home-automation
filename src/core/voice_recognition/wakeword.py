@@ -4,9 +4,8 @@ import numpy as np
 import pyaudio
 from openwakeword.model import Model
 
-from src.modules.voice_recognition.consts import (CHUNK, RESPEAKER_CHANNELS,
-                                                  RESPEAKER_RATE,
-                                                  RESPEAKER_WIDTH)
+from src.core.voice_recognition.consts import (RESPEAKER_CHANNELS,
+                                               RESPEAKER_RATE, RESPEAKER_WIDTH)
 
 current_dir = Path(__file__).parent
 
