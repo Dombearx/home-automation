@@ -4,7 +4,7 @@ import webbrowser
 import pyautogui
 
 from src.modules.youtube.consts import DEFAULT_TIME_TO_WAIT
-
+from youtube_search import YoutubeSearch
 
 class YoutubeConnector:
     @staticmethod

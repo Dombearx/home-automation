@@ -1,6 +1,7 @@
 from langchain.agents import tool
 from langchain.tools import YouTubeSearchTool
 
+from src.modules.google.google_search import GoogleSearch
 from src.modules.light.tools import SwitchLightTool
 from src.modules.todoist.tools import AddTodoTasksTool
 from src.modules.user_communication.communication import UserCommunication
@@ -16,7 +17,7 @@ def respond_to_user(response: str):
 
 @tool
 def play_video(url: str):
-    """Allows to play youtube video with given url."""
+    """Allows to play YouTube video with given url."""
     YoutubeConnector.play_video(url)
     return True
 
@@ -31,5 +32,5 @@ TOOLS = [
     AddTodoTasksTool(),
     SwitchLightTool(),
 ]
-#
+
 # TOOLS += google_search.get_tools()
