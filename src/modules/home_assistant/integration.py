@@ -3,8 +3,12 @@ import json
 import requests
 from loguru import logger
 
-from src.modules.home_assistant.consts import (HA_ACCESS_TOKEN, HA_ACCESS_URL,
-                                               Service, get_service_webhook_id)
+from src.modules.home_assistant.consts import (
+    HA_ACCESS_TOKEN,
+    HA_ACCESS_URL,
+    Service,
+    get_service_webhook_id,
+)
 
 
 class HomeAssistantIntegration:

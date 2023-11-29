@@ -7,30 +7,32 @@ from langchain.callbacks.manager import (
 from langchain.tools import BaseTool
 from pydantic import BaseModel, Field
 
-from src.modules.light.light import Light, LightState
+from src.modules.user_communication.communication import UserCommunication
 
 
-class SwitchLightSchema(BaseModel):
-    new_light_state: LightState = Field(description="should be a new state of light")
+class RespondToUserSchema(BaseModel):
+    response: str = Field(description="should be a response that user will see")
 
 
-class SwitchLightTool(BaseTool):
-    name: str = "switch_light"
-    description: str = "Allows to turn the light on and off."
-    args_schema: Type[SwitchLightSchema] = SwitchLightSchema
+class RespondToUserTool(BaseTool):
+    name: str = "respond_to_user"
+    description: str = (
+        "Allows to send response to user, without it the user will not see the reponse."
+    )
+    args_schema: Type[RespondToUserSchema] = RespondToUserSchema
 
     def _run(
         self,
-        new_light_state: LightState,
+        response: str,
         run_manager: Optional[CallbackManagerForToolRun] = None,
     ) -> bool:
         """Use the tool."""
-        Light.switch_light(new_light_state)
+        UserCommunication.respond(response)
         return True
 
     async def _arun(
         self,
-        new_light_state: LightState,
+        response: str,
         run_manager: Optional[AsyncCallbackManagerForToolRun] = None,
     ) -> bool:
         """Use the tool asynchronously."""
