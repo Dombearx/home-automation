@@ -3,8 +3,7 @@ from io import BytesIO
 import speech_recognition as sr
 from faster_whisper import WhisperModel
 
-from src.modules.voice_recognition.consts import (RESPEAKER_RATE,
-                                                  RESPEAKER_WIDTH)
+from src.core.voice_recognition.consts import RESPEAKER_RATE, RESPEAKER_WIDTH
 
 
 class SpeechRecognition:

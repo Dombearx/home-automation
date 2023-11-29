@@ -25,7 +25,7 @@ class ChatBotTemplate:
             [
                 (
                     "system",
-                    "You are a home assistant, your goal is to listen to human orders.",
+                    "You are a home assistant, your goal is to listen to human orders. In order to respond to user allways use RespondToUserTool.",
                 ),
                 ("user", "{human_input}"),
                 MessagesPlaceholder(variable_name="agent_scratchpad"),

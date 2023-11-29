@@ -2,8 +2,8 @@ from langchain.agents.format_scratchpad import format_to_openai_functions
 from langchain.chat_models import ChatOpenAI
 from langchain.tools.render import format_tool_to_openai_function
 
-from src.modules.assistant.assistant_template import ChatBotTemplate
-from src.modules.tools.tools import TOOLS
+from src.core.assistant.assistant_template import ChatBotTemplate
+from src.core.tools.tools import TOOLS
 
 
 class OpenAIChatBot(ChatBotTemplate):

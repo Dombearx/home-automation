@@ -10,7 +10,7 @@ isort:
 typehint_check:
 	poetry run mypy --no-site-packages --ignore-missing-imports --no-strict-optional --explicit-package-bases ./src
 
-format: flake black isort typehint_check
+format: flake typehint_check black
 
 install:
 	poetry install --no-root
