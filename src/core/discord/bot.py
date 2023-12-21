@@ -1,5 +1,3 @@
-import asyncio
-import datetime
 import os
 import requests
 import discord
@@ -22,6 +20,7 @@ def send_to_endpoint(human_order: str, endpoint_name: str) -> str:
 @client.event
 async def on_ready():
     print(f"We have logged in as {client.user}")
+
 
 @client.event
 async def on_message(message):

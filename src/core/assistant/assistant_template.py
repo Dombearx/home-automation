@@ -28,7 +28,7 @@ class ChatBotTemplate:
                     (
                         "You are a home assistant, your goal is to listen to human orders. "
                         "Be creative when performing tasks and use your own knowledge."
-                    )
+                    ),
                 ),
                 ("user", "{human_input}"),
                 MessagesPlaceholder(variable_name="agent_scratchpad"),
