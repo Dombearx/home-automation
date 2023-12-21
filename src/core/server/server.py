@@ -26,7 +26,8 @@ async def validation_exception_handler(request: Request, exc: RequestValidationE
 # Define a function to load your big data
 def load_chatbot():
     model_name = "gpt-3.5-turbo"
-    return OpenAIChatBot(model_name)
+    temperature = 0.7
+    return OpenAIChatBot(model_name, temperature)
 
 
 def load_recognition():
@@ -57,8 +58,8 @@ def receive_audio(
     start_time = time.time()
     human_order = recognition.recognize_from_file(BytesIO(audioFile.file.read()))
     logger.debug(f"Audio processed in {time.time() - start_time} - {human_order}")
-    chatbot.chat(human_order)
-    return {"message": "Hello, this is the receive_audio endpoint!"}
+    response = chatbot.chat(human_order)
+    return {"response": response}
 
 
 @app.post("/receive_command")
@@ -66,8 +67,8 @@ def receive_command(
     human_order: str = Form(...), chatbot: OpenAIChatBot = Depends(get_chatbot)
 ):
     logger.debug(f"Processing: {human_order}")
-    chatbot.chat(human_order)
-    return {"message": "Hello, this is the receive_audio endpoint!"}
+    response = chatbot.chat(human_order)
+    return {"response": response}
 
 
 if __name__ == "__main__":

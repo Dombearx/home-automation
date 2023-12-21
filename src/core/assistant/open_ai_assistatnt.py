@@ -7,8 +7,8 @@ from src.core.tools.tools import TOOLS
 
 
 class OpenAIChatBot(ChatBotTemplate):
-    def __init__(self, model_name: str):
-        main_llm = ChatOpenAI(model_name=model_name, temperature=0)
+    def __init__(self, model_name: str, temperature: float = 0.7):
+        main_llm = ChatOpenAI(model_name=model_name, temperature=temperature)
         super().__init__(
             main_llm,
             tools=TOOLS,
