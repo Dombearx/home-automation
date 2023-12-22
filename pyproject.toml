@@ -31,6 +31,8 @@ google-api-python-client = "^2.108.0"
 selenium = "^4.15.2"
 discord = "^2.3.2"
 faster-whisper = "^0.10.0"
+playwright = "^1.40.0"
+beautifulsoup4 = "^4.12.2"
 
 
 [build-system]

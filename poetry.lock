@@ -240,6 +240,24 @@ files = [
 ]
 
 [[package]]
+name = "beautifulsoup4"
+version = "4.12.2"
+description = "Screen-scraping library"
+optional = false
+python-versions = ">=3.6.0"
+files = [
+    {file = "beautifulsoup4-4.12.2-py3-none-any.whl", hash = "sha256:bd2520ca0d9d7d12694a53d44ac482d181b4ec1888909b035a3dbf40d0f57d4a"},
+    {file = "beautifulsoup4-4.12.2.tar.gz", hash = "sha256:492bbc69dca35d12daac71c4db1bfff0c876c00ef4a2ffacce226d4638eb72da"},
+]
+
+[package.dependencies]
+soupsieve = ">1.2"
+
+[package.extras]
+html5lib = ["html5lib"]
+lxml = ["lxml"]
+
+[[package]]
 name = "black"
 version = "23.11.0"
 description = "The uncompromising code formatter."
@@ -1947,6 +1965,26 @@ docs = ["furo (>=2023.7.26)", "proselint (>=0.13)", "sphinx (>=7.1.1)", "sphinx-
 test = ["appdirs (==1.4.4)", "covdefaults (>=2.3)", "pytest (>=7.4)", "pytest-cov (>=4.1)", "pytest-mock (>=3.11.1)"]
 
 [[package]]
+name = "playwright"
+version = "1.40.0"
+description = "A high-level API to automate web browsers"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "playwright-1.40.0-py3-none-macosx_10_13_x86_64.whl", hash = "sha256:35b7e0b389df2aa632f3614d35be7bace35f6f634d880db44b035c83e4481312"},
+    {file = "playwright-1.40.0-py3-none-macosx_11_0_arm64.whl", hash = "sha256:382a7465cc0ea3bf7fa66716bd37fd53f66af4bcc5c72283a8eff3f6e87758a8"},
+    {file = "playwright-1.40.0-py3-none-macosx_11_0_universal2.whl", hash = "sha256:f11e1ec32f3b3dbd7f24d1481c313cb527001955004ee88a73f9b4a610d0db28"},
+    {file = "playwright-1.40.0-py3-none-manylinux1_x86_64.whl", hash = "sha256:6a842dca4dd53feda1d7bd0e14aa65140e4e816452ebddd307e90cad184d92bd"},
+    {file = "playwright-1.40.0-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:4ec3746de69e7ba912b70e0fe3a3c6b8af97f21ece793c5db27c251da4d2f3e6"},
+    {file = "playwright-1.40.0-py3-none-win32.whl", hash = "sha256:3ae90ea5ad776fe5e1300a9c730244c8e57a183c6eb261044418710d51ae03c0"},
+    {file = "playwright-1.40.0-py3-none-win_amd64.whl", hash = "sha256:ba5a89953aedb158025e4581eafb6fdeebb3d58acd9ce24b59f691b1e2a861bc"},
+]
+
+[package.dependencies]
+greenlet = "3.0.1"
+pyee = "11.0.1"
+
+[[package]]
 name = "protobuf"
 version = "4.25.1"
 description = ""
@@ -2180,6 +2218,23 @@ files = [
 
 [package.dependencies]
 typing-extensions = ">=4.6.0,<4.7.0 || >4.7.0"
+
+[[package]]
+name = "pyee"
+version = "11.0.1"
+description = "A rough port of Node.js's EventEmitter to Python with a few tricks of its own"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "pyee-11.0.1-py3-none-any.whl", hash = "sha256:9bcc9647822234f42c228d88de63d0f9ffa881e87a87f9d36ddf5211f6ac977d"},
+    {file = "pyee-11.0.1.tar.gz", hash = "sha256:a642c51e3885a33ead087286e35212783a4e9b8d6514a10a5db4e57ac57b2b29"},
+]
+
+[package.dependencies]
+typing-extensions = "*"
+
+[package.extras]
+dev = ["black", "flake8", "flake8-black", "isort", "jupyter-console", "mkdocs", "mkdocs-include-markdown-plugin", "mkdocstrings[python]", "pytest", "pytest-asyncio", "pytest-trio", "toml", "tox", "trio", "trio", "trio-typing", "twine", "twisted", "validate-pyproject[all]"]
 
 [[package]]
 name = "pyflakes"
@@ -2653,6 +2708,17 @@ python-versions = "*"
 files = [
     {file = "sortedcontainers-2.4.0-py2.py3-none-any.whl", hash = "sha256:a163dcaede0f1c021485e957a39245190e74249897e2ae4b2aa38595db237ee0"},
     {file = "sortedcontainers-2.4.0.tar.gz", hash = "sha256:25caa5a06cc30b6b83d11423433f65d1f9d76c4c6a0c90e3379eaa43b9bfdb88"},
+]
+
+[[package]]
+name = "soupsieve"
+version = "2.5"
+description = "A modern CSS selector implementation for Beautiful Soup."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "soupsieve-2.5-py3-none-any.whl", hash = "sha256:eaa337ff55a1579b6549dc679565eac1e3d000563bcb1c8ab0d0fefbc0c2cdc7"},
+    {file = "soupsieve-2.5.tar.gz", hash = "sha256:5663d5a7b3bfaeee0bc4372e7fc48f9cff4940b3eec54a6451cc5299f1097690"},
 ]
 
 [[package]]
@@ -3271,5 +3337,5 @@ httpx = ">=0.14.2"
 
 [metadata]
 lock-version = "2.0"
-python-versions = ">=3.10,<=3.11"
-content-hash = "e22bc987cb998b315791cf3d5117416b428d0b9a5672470104a7a165fc246b28"
+python-versions = "^3.10"
+content-hash = "8156b145c95a879e3b9a1e11cc2612653d011beca59046acba0953a34b2280a6"

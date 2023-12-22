@@ -14,3 +14,4 @@ format: flake typehint_check black
 
 install:
 	poetry install --no-root
+	poetry run playwright install
