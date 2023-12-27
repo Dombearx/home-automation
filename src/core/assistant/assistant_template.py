@@ -1,9 +1,10 @@
-from typing import Callable, Optional
+from typing import Callable, Optional, List
 
 from langchain.agents import AgentExecutor
 from langchain.agents.output_parsers import OpenAIFunctionsAgentOutputParser
 from langchain.chat_models.base import BaseChatModel
 from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain.schema import HumanMessage, AIMessage
 from langchain.schema.runnable import Runnable
 from langchain.tools import BaseTool
 
@@ -26,10 +27,11 @@ class ChatBotTemplate:
                 (
                     "system",
                     (
-                        "You are a home assistant, your goal is to listen to human orders. "
+                        "You are a home assistant, your goal is to listen to user orders. "
                         "Be creative when performing tasks and use your own knowledge."
                     ),
                 ),
+                MessagesPlaceholder(variable_name="chat_history"),
                 ("user", "{human_input}"),
                 MessagesPlaceholder(variable_name="agent_scratchpad"),
             ]
@@ -44,15 +46,25 @@ class ChatBotTemplate:
             {
                 "human_input": lambda x: x["human_input"],
                 "agent_scratchpad": lambda x: format_function(x["intermediate_steps"]),
+                "chat_history": lambda x: x["chat_history"],
             }
             | prompt
             | main_llm
             | OpenAIFunctionsAgentOutputParser()
         )
+        self.chat_history: List[HumanMessage | AIMessage] = []
 
     def chat(self, human_input: str):
         agent_executor = AgentExecutor(agent=self.agent, tools=self.tools, verbose=True)
-        output = agent_executor.invoke({"human_input": human_input})
+        output = agent_executor.invoke(
+            {"human_input": human_input, "chat_history": self.chat_history}
+        )
+        self.chat_history.extend(
+            [
+                HumanMessage(content=human_input),
+                AIMessage(content=output["output"]),
+            ]
+        )
 
         return output["output"]
 
