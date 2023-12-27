@@ -1,7 +1,7 @@
 import time
 import webbrowser
 from dataclasses import dataclass
-from typing import List
+from typing import List, Dict
 
 import pyautogui
 from youtubesearchpython import VideosSearch
@@ -30,13 +30,15 @@ class YoutubeConnector:
         browser = webbrowser.get()
         browser.open(url)
         time.sleep(time_to_wait)  # give it a couple seconds to load
+        firefox_window = pyautogui.getWindowsWithTitle("Firefox")[0]
+        firefox_window.activate()
         pyautogui.press("space")
 
     @staticmethod
     def search_videos(
         text_to_search: str, number_of_videos: int = DEFAULT_NUMBER_OF_VIDEOS
     ) -> List[VideoData]:
-        result = VideosSearch(text_to_search, limit=number_of_videos).result()
+        result: Dict = VideosSearch(text_to_search, limit=number_of_videos).result()
         return [
             VideoData(
                 title=video["title"],
