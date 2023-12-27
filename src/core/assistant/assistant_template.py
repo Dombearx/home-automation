@@ -1,12 +1,16 @@
-from typing import Callable, Optional, List
+import time
+from typing import Callable, Optional
 
 from langchain.agents import AgentExecutor
-from langchain.agents.output_parsers import OpenAIFunctionsAgentOutputParser
+
 from langchain.chat_models.base import BaseChatModel
 from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain.schema import HumanMessage, AIMessage
 from langchain.schema.runnable import Runnable
 from langchain.tools import BaseTool
+
+from src.core.assistant.consts import MAX_HISTORY_TIME
+
+from langchain.memory import ConversationBufferWindowMemory
 
 
 def identity_function(x):
@@ -20,6 +24,7 @@ class ChatBotTemplate:
         tools: Optional[list[BaseTool]] = None,
         format_function: Callable = identity_function,
         tool_format_function: Callable = identity_function,
+        output_parser: Callable = identity_function,
     ):
         self.tools = tools
         prompt = ChatPromptTemplate.from_messages(
@@ -50,23 +55,31 @@ class ChatBotTemplate:
             }
             | prompt
             | main_llm
-            | OpenAIFunctionsAgentOutputParser()
+            | output_parser()
         )
-        self.chat_history: List[HumanMessage | AIMessage] = []
+        self.last_history_timestamp: Optional[float] = None
+        self.memory = ConversationBufferWindowMemory(
+            memory_key="chat_history", k=10, return_messages=True
+        )
 
     def chat(self, human_input: str):
-        agent_executor = AgentExecutor(agent=self.agent, tools=self.tools, verbose=True)
-        output = agent_executor.invoke(
-            {"human_input": human_input, "chat_history": self.chat_history}
+        agent_executor = AgentExecutor(
+            agent=self.agent, tools=self.tools, memory=self.memory, verbose=True
         )
-        self.chat_history.extend(
-            [
-                HumanMessage(content=human_input),
-                AIMessage(content=output["output"]),
-            ]
-        )
+        history_timestamp = time.time()
+        if (
+            self.last_history_timestamp
+            and history_timestamp - self.last_history_timestamp > MAX_HISTORY_TIME
+        ):
+            self.clear_chat_history()
+        self.last_history_timestamp = history_timestamp
+
+        output = agent_executor.invoke({"human_input": human_input})
 
         return output["output"]
+
+    def clear_chat_history(self):
+        self.memory.clear()
 
     def bind_tools(
         self,
