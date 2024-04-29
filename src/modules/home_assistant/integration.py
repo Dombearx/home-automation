@@ -1,4 +1,5 @@
 import json
+from typing import Optional, Dict
 
 import requests
 from loguru import logger
@@ -13,18 +14,17 @@ from src.modules.home_assistant.consts import (
 
 class HomeAssistantIntegration:
     @staticmethod
-    def send(service: Service, payload: dict):
+    def send(service: Service, payload: Optional[Dict] = None):
         headers = {
             "Authorization": f"Bearer {HA_ACCESS_TOKEN}",
             "Content-Type": "application/json",
         }
         webhook_id = get_service_webhook_id(service)
+        if not payload:
+            payload = {}
 
         service_url = f"{HA_ACCESS_URL}/api/webhook/{webhook_id}"
         response = requests.post(service_url, headers=headers, data=json.dumps(payload))
 
         logger.debug(f"{response.status_code = }")
         logger.debug(response.text)
-
-
-0
