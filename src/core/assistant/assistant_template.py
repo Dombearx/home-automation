@@ -33,7 +33,8 @@ class ChatBotTemplate:
                     "system",
                     (
                         "You are a home assistant, your goal is to listen to user orders. "
-                        "Be creative when performing tasks and use your own knowledge."
+                        "Be creative when performing tasks and use your own knowledge. "
+                        "Your response should be short and concise."
                     ),
                 ),
                 MessagesPlaceholder(variable_name="chat_history"),
