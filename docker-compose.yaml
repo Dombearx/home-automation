@@ -1,0 +1,5 @@
+services:
+  homeariusz:
+    image: homeariusz
+    ports:
+      - "8000:8000"
