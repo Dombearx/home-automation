@@ -54,23 +54,20 @@ def read_root():
 
 @app.post("/receive_audio")
 def receive_audio(request: Request, audioFile: UploadFile = File(...)):
+    logger.debug(f"Processing audio file: {audioFile.filename}")
     start_time = time.time()
     human_order = request.state.recognition.recognize_from_file(
         BytesIO(audioFile.file.read())
     )
     logger.debug(f"Audio processed in {time.time() - start_time} - {human_order}")
     response = request.state.chatbot.chat(human_order)
-    return {"response": response}
+    return {"response": response, "human_order": human_order}
 
 
 @app.post("/receive_command")
 def receive_command(request: Request, human_order: str = Form(...)):
+    # mock response
+    # return {"response": "I am a mock response"}
     logger.debug(f"Processing: {human_order}")
     response = request.state.chatbot.chat(human_order)
     return {"response": response}
-
-
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run(app, host="0.0.0.0", port=8000)
