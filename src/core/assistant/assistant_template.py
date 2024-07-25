@@ -11,7 +11,7 @@ from langchain.tools import BaseTool
 from src.core.assistant.consts import MAX_HISTORY_TIME
 
 from langchain.memory import ConversationBufferWindowMemory
-
+from loguru import logger
 
 def identity_function(x):
     return x
@@ -33,7 +33,8 @@ class ChatBotTemplate:
                     "system",
                     (
                         "You are a home assistant, your goal is to listen to user orders. "
-                        "Be creative when performing tasks and use your own knowledge."
+                        "Be creative when performing tasks and use your own knowledge. "
+                        "Your response should be short and concise."
                     ),
                 ),
                 MessagesPlaceholder(variable_name="chat_history"),
@@ -63,6 +64,7 @@ class ChatBotTemplate:
         )
 
     def chat(self, human_input: str):
+        logger.info(f"User: {human_input}")
         agent_executor = AgentExecutor(
             agent=self.agent, tools=self.tools, memory=self.memory, verbose=True
         )

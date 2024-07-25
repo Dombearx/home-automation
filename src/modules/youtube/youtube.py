@@ -1,14 +1,12 @@
-import time
-import webbrowser
+import os
 from dataclasses import dataclass
 from typing import List, Dict
+import requests
 
-import pyautogui
 from youtubesearchpython import VideosSearch
 
 from src.modules.youtube.consts import (
     DEFAULT_NUMBER_OF_VIDEOS,
-    DEFAULT_TIME_TO_WAIT,
     MAX_DESCRIPTION_LENGTH,
 )
 
@@ -26,13 +24,9 @@ class VideoData:
 
 class YoutubeConnector:
     @staticmethod
-    def play_video(url: str, time_to_wait: int = DEFAULT_TIME_TO_WAIT) -> None:
-        browser = webbrowser.get()
-        browser.open(url)
-        time.sleep(time_to_wait)  # give it a couple seconds to load
-        firefox_window = pyautogui.getWindowsWithTitle("Firefox")[0]
-        firefox_window.activate()
-        pyautogui.press("space")
+    def play_video(url: str) -> None:
+        main_pc_ip = os.environ.get("MAIN_PC_IP")
+        requests.post(f"http://{main_pc_ip}:8001/play_video", data={"url": url})
 
     @staticmethod
     def search_videos(
