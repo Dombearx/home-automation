@@ -28,7 +28,7 @@ docker_save:
 	docker save -o ./images/homeariusz.tar homeariusz
 
 manage_remote:
-	ssh 192.168.0.201 "rm -rf ./images/homeariusz.tar"
+	ssh 192.168.0.201 "rm -rf /home/domin/images/homeariusz.tar"
 	scp ./images/homeariusz.tar domin@192.168.0.201:/home/domin/images
 	ssh 192.168.0.201 "cd /home/domin/home-assistant; docker-compose stop"
 	ssh 192.168.0.201 "cd /home/domin/home-assistant; docker-compose down"
