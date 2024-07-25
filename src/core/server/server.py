@@ -13,7 +13,7 @@ from src.core.voice_recognition.voice_recognition import SpeechRecognition
 
 
 def load_chatbot():
-    model_name = "gpt-3.5-turbo"
+    model_name = "gpt-4o-mini"
     temperature = 0.7
     return OpenAIChatBot(model_name, temperature)
 
