@@ -11,7 +11,7 @@ from langchain.tools import BaseTool
 from src.core.assistant.consts import MAX_HISTORY_TIME
 
 from langchain.memory import ConversationBufferWindowMemory
-
+from loguru import logger
 
 def identity_function(x):
     return x
@@ -64,6 +64,7 @@ class ChatBotTemplate:
         )
 
     def chat(self, human_input: str):
+        logger.info(f"User: {human_input}")
         agent_executor = AgentExecutor(
             agent=self.agent, tools=self.tools, memory=self.memory, verbose=True
         )
