@@ -39,3 +39,19 @@ manage_remote:
 
 deploy: docker_build docker_save manage_remote
 
+.PHONY: update-dependencies
+update-dependencies:
+	@dependencies=$$(awk '/\[tool.poetry.dependencies\]/ {flag=1; next} /^\[/{flag=0} flag && /^[[:space:]]*[a-zA-Z0-9_-]+[[:space:]]*=/ {print $$1}' pyproject.toml); \
+	installed_packages=$$(poetry show -l); \
+	for dependency in $$dependencies; do \
+		if [ "$$dependency" != "python" ]; then \
+			current_version=$$(echo "$$installed_packages" | grep -A 0 "^$$dependency " | awk '{print $$2}'); \
+			latest_version=$$(echo "$$installed_packages" | grep -A 0 "^$$dependency " | awk '{print $$3}'); \
+			if [ "$$current_version" != "$$latest_version" ]; then \
+				echo "Updating $$dependency from $$current_version to $$latest_version"; \
+				poetry add "$$dependency@latest"; \
+			else \
+				echo "$$dependency is already up-to-date"; \
+			fi; \
+		fi; \
+	done
